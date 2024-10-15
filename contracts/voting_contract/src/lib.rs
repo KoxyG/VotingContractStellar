@@ -66,22 +66,22 @@ impl VotingContract {
     }
 
     // get the winning proposal
-    pub fn get_winning_proposal(env: &Env) -> Proposal {
-        let proposal_count: u32 = Self::get_proposal_count(env);
-        let mut winning_proposal = Proposal {
-            id: 0,
-            title: String::from_str(env, ""),
-            description: String::from_str(env, ""),
-            vote_count: 0,
-        };
-        for i in 1..=proposal_count {
-            let proposal: Proposal = Self::get_proposal(env, i);
-            if proposal.vote_count > winning_proposal.vote_count {
-                winning_proposal = proposal;
-            }
-        }
-        winning_proposal
-    }
+    // pub fn get_winning_proposal(env: &Env) -> Proposal {
+    //     let proposal_count: u32 = Self::get_proposal_count(env);
+    //     let mut winning_proposal = Proposal {
+    //         id: 0,
+    //         title: String::from_str(env, ""),
+    //         description: String::from_str(env, ""),
+    //         vote_count: 0,
+    //     };
+    //     for i in 1..=proposal_count {
+    //         let proposal: Proposal = Self::get_proposal(env, i);
+    //         if proposal.vote_count > winning_proposal.vote_count {
+    //             winning_proposal = proposal;
+    //         }
+    //     }
+    //     winning_proposal
+    // }
 }
 
 mod test;
