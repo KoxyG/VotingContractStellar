@@ -1,21 +1,24 @@
-# Soroban Project
+# Soroban Voting Contract
 
-## Project Structure
+## Overview
 
-This repository uses the recommended structure for a Soroban project:
-```text
-.
-├── contracts
-│   └── hello_world
-│       ├── src
-│       │   ├── lib.rs
-│       │   └── test.rs
-│       └── Cargo.toml
-├── Cargo.toml
-└── README.md
-```
+- This Soroban Voting Contract is a decentralized application (dApp) built on the Stellar blockchain using the Soroban smart contract platform. It allows users to create proposals, vote on them, and determine the winning proposal based on the number of votes received.
 
-- New Soroban contracts can be put in `contracts`, each in their own directory. There is already a `hello_world` contract in there to get you started.
-- If you initialized this project with any other example contracts via `--with-example`, those contracts will be in the `contracts` directory as well.
-- Contracts should have their own `Cargo.toml` files that rely on the top-level `Cargo.toml` workspace for their dependencies.
-- Frontend libraries can be added to the top-level directory as well. If you initialized this project with a frontend template via `--frontend-template` you will have those files already included.# VotingContractStellar
+## Features
+
+- Create new proposals with a title and description
+- Vote on existing proposals
+- Retrieve individual proposal details
+- Get a list of all proposals
+- Determine the winning proposal
+- Keep track of voter participation to prevent double voting
+
+## Testing 
+- Creating proposals
+- Voting on proposals
+- Retrieving proposal information
+- Determining the winning proposal
+
+
+Contract deployed:
+[StellarScan](`https://stellar.expert/explorer/testnet/contract/CB6ESF5VLPMU6B6ADYHKJAV2NTXDDODFWYU6KD3Q7FBJIFNV2EG5XYBP`)
