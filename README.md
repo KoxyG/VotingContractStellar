@@ -21,4 +21,4 @@
 
 
 Contract deployed:
-[StellarScan](`https://stellar.expert/explorer/testnet/contract/CB6ESF5VLPMU6B6ADYHKJAV2NTXDDODFWYU6KD3Q7FBJIFNV2EG5XYBP`)
+[StellarScan](https://stellar.expert/explorer/testnet/contract/CB6ESF5VLPMU6B6ADYHKJAV2NTXDDODFWYU6KD3Q7FBJIFNV2EG5XYBP)
