@@ -1,8 +1,6 @@
 #![no_std]
-use soroban_sdk::{contract, contracttype, contractimpl, String,  symbol_short, vec, Env, Symbol, Vec};
-
-const VOTE_ID: Symbol = symbol_short!("VOTE_ID");
-const PRO_ID: Symbol = symbol_short!("PRO_ID");
+use soroban_sdk::{contract, Address, contractimpl, String, Env};
+use crate::datatypes::{Proposal, VoterInfo, Datakey};
 
 
 
@@ -10,72 +8,63 @@ const PRO_ID: Symbol = symbol_short!("PRO_ID");
 pub struct VotingContract;
 
 
-#[contracttype]
-pub struct Proposal {
-    id: u32,
-    title: String,
-    description: String,
-
-    vote_count: u32,
-}
-
-
-#[contracttype]
-pub struct VoterInfo {
-    has_voted: bool,
-    voted_for: u32,
-}
-
 
 #[contractimpl]
 impl VotingContract {
 
     // create proposal
     pub fn create_proposal(env: Env, title: String, description: String) -> u32 {
-        
-        let mut proposal_id: u32 = env.storage().instance().get(&PRO_ID).unwrap_or(0);
+        let proposal_count: u32 = env.storage().instance().get(&Datakey::ProposalCount(0)).unwrap_or(0);
+        let mut _newCount: u32 = proposal_count + 1;  
 
-        proposal_id += 1;  
-
-        let proposal = Proposal {
-            id: proposal_id,
+        let proposal: datatypes::Proposal  = Proposal {
+            id: _newCount,
             title: title,
             description: description,
             vote_count: 0,
         };
 
 
-        env.storage().instance().set(&PRO_ID, &proposal_id);
+        // set proposal
+        env.storage().instance().set(&datatypes::Datakey::Proposal(_newCount), &proposal);
+        // set proposal count
+        env.storage().instance().set(&datatypes::Datakey::ProposalCount(0), &_newCount);
         
-        proposal_id
+        _newCount
     }
 
 
     // vote proposal
-    pub fn vote(env: Env, proposal_id: u32) {
+    pub fn vote(env: Env, voter: Address, proposal_id: u32)  {
 
-        let mut voter_info = env.storage().instance().get(&VOTE_ID).unwrap_or(
+        let mut proposal: Proposal = env.storage().instance().get(&Datakey::Proposal(proposal_id)).unwrap_or_else(
+        || panic!("Proposal not found")
+        );
+
+        let mut voter_info: VoterInfo = env.storage().instance().get(&Datakey::VoterInfo(voter.clone())).unwrap_or(
             VoterInfo {
                 has_voted: false,
                 voted_for: 0,
             }  
         );
 
+
         if voter_info.has_voted {
             panic!("Already voted");
         }
 
-        let mut proposal: Proposal = env.storage().instance().get(&proposal_id).unwrap();
 
         proposal.vote_count += 1;
         voter_info.has_voted = true;
         voter_info.voted_for  = proposal_id;
 
        
-        env.storage().instance().set(&proposal_id, &proposal);
-        env.storage().instance().set(&VOTE_ID, &voter_info);
+        env.storage().instance().set(&Datakey::Proposal(proposal_id), &proposal);
+        env.storage().instance().set(&Datakey::VoterInfo(voter.clone()), &voter_info);
     }
+
 
 }
 
 mod test;
+mod datatypes;
